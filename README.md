@@ -38,15 +38,65 @@ This plugin logs each request to a GitHub Gist. To set this up:
 
 The plugin will now log each request to the Gist.
 
-## Visualizing Request Data with Gradio
+# Gradio Interface for Visualizing Request Data
 
-You can visualize the request data logged to the Gist using Gradio. To do this:
+This guide will help you set up a Gradio interface to visualize the request data logged to a GitHub Gist. This is a continuation of the ChatGPT plugins quickstart guide with Gist and Gradio Analytics.
 
-1. Install Gradio by running `pip install gradio`.
-2. Run the Gradio interface code provided in the `show_data` function.
-3. Replace the `url` in the `show_data` function with the raw URL of your Gist's CSV file.
+## Setup
 
-You can now visualize your request data in a Gradio interface!
+1. Install Gradio by running `pip install gradio` in your terminal.
+
+2. Use the following template to create a Gradio interface:
+
+```python
+import gradio as gr
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter
+import matplotlib.dates as mdates
+
+def show_data():
+    # URL of the raw CSV file in your Gist
+    url = "https://gist.githubusercontent.com/YOUR_GITHUB_USERNAME/GIST_ID/raw/requests_log.csv"
+    
+    # Read the CSV file
+    df = pd.read_csv(url)
+    
+    # Convert the 'Timestamp' column to datetime
+    df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+    
+    # Table
+    table = df
+
+    # Chart
+    fig, ax = plt.subplots()
+
+    # Group the data by date and request type, and count the number of each type per day
+    daily_counts = df.groupby([df['Timestamp'].dt.date, 'Request Type']).size().unstack()
+
+    # Plot the data
+    daily_counts.plot(kind='bar', stacked=True, ax=ax)
+
+    # Format the x-axis
+    ax.xaxis.set_major_locator(mdates.WeekdayLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
+    
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    return fig
+
+iface = gr.Interface(fn=show_data, inputs=[], outputs=["plot"])
+iface.launch()
+```
+
+3. Replace `YOUR_GITHUB_USERNAME` and `GIST_ID` in the `url` with your GitHub username and the ID of your Gist, respectively.
+
+4. Run the script. This will launch a Gradio interface in your web browser.
+
+You can now visualize your request data in a Gradio interface! The interface displays a bar chart showing the number of each type of request per day. The data is read directly from the CSV file in your Gist.
+
+For a live example of this setup, you can visit [this Gradio interface](https://huggingface.co/spaces/Illia56/Plugin-Analytics) and replace the `url` value with your own Gist URL.
 
 ## Setup remotely
 
