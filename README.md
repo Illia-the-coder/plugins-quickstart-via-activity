@@ -32,12 +32,11 @@ The plugin should now be installed and enabled! You can start with a question li
 
 This plugin logs each request to a GitHub Gist. To set this up:
 
-1. Create a new Gist on GitHub. The Gist should contain a single CSV file (e.g., `requests_log.csv`).
-2. Get your GitHub token and add it to the code where it says `YOUR_GITHUB_TOKEN`.
-3. Replace `GIST_ID` and `FILENAME` in the code with the ID of your Gist and the name of the CSV file, respectively.
+1. Create a new Gist on GitHub. You can do this by going to [https://gist.github.com/](https://gist.github.com/) and clicking on the "+ New gist" button. The Gist should contain a single CSV file (e.g., `requests_log.csv`).
+2. Get your GitHub token. You can generate a new token by going to [https://github.com/settings/tokens](https://github.com/settings/tokens) and clicking on the "Generate new token" button. Add this token to the code where it says `YOUR_GITHUB_TOKEN`.
+3. Replace `GIST_ID` and `FILENAME` in the code with the ID of your Gist and the name of the CSV file, respectively. The Gist ID is the last part of the URL of your Gist (e.g., if your Gist URL is `https://gist.github.com/username/1234567890abcdef`, the Gist ID is `1234567890abcdef`).
 
 The plugin will now log each request to the Gist.
-
 # Gradio Interface for Visualizing Request Data
 
 This guide will help you set up a Gradio interface to visualize the request data logged to a GitHub Gist. This is a continuation of the ChatGPT plugins quickstart guide with Gist and Gradio Analytics.
@@ -98,13 +97,23 @@ You can now visualize your request data in a Gradio interface! The interface dis
 
 For a live example of this setup, you can visit [this Gradio interface](https://huggingface.co/spaces/Illia56/Plugin-Analytics) and replace the `url` value with your own Gist URL.
 
-## Setup remotely
+## Setup Remotely
 
-### Cloudflare workers
+You can also deploy your plugin on a remote server. Here are a few options:
+
+### Cloudflare Workers
+
+Cloudflare Workers allow you to run your serverless code on Cloudflare's edge network. You can follow the instructions in the [Cloudflare Workers Quick Start Guide](https://developers.cloudflare.com/workers/quickstart/) to deploy your plugin.
 
 ### Code Sandbox
 
+CodeSandbox is an online code editor that allows you to create web applications, including server applications. You can use the [CodeSandbox Node.js Template](https://codesandbox.io/s/node) to create a new Node.js sandbox and then copy your plugin code into the `server.js` file.
+
 ### Replit
+
+Replit is an online code editor that supports many programming languages, including Python. You can create a new Python repl at [https://replit.com/](https://replit.com/) and copy your plugin code into the `main.py` file. Then, click on the "Run" button to start your plugin. You can access your plugin at the URL shown in the "Web Server" tab.
+
+Remember to replace `localhost:5003` with the URL of your remote server when you install and enable the plugin in the ChatGPT interface.
 
 ## Getting help
 
